@@ -1,0 +1,30 @@
+{
+  "name": "todomen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hidinkyu/TodoMEN.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hidinkyu/TodoMEN/issues"
+  },
+  "homepage": "https://github.com/Hidinkyu/TodoMEN#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20",
+    "sass": "^1.57.1"
+  }
+}
