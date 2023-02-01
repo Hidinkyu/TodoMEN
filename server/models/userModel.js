@@ -11,16 +11,13 @@ const userSchema = new Schema({
     type: String,
     require: false,
     default: null,
-  },
-  userName: {
-    type: String,
-    require: false,
     unique: true,
   },
   password: {
     type: String,
     require: false,
     default: null,
+    minlength: 6,
   },
   todo: {
     type: Array(String),
@@ -29,7 +26,7 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function (next) {
   bcrypt.hash(this.password, process.env.SALT_WORK_FACTOR, (_, hash) => {
     this.password = hash;
     next();
