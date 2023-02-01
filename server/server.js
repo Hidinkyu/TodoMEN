@@ -33,6 +33,14 @@ mongoose
 // TODO: set up express routes
 app.use('/api', auth);
 
+app.get('/client/style.css', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/style.css'));
+});
+
+app.get('/client/script.js', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/script.js'));
+});
+
 // TODO: get main page when domain reaches '/'
 app.get('/', (_, res) => {
   res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'));
