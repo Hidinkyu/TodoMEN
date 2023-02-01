@@ -4,6 +4,7 @@ const router = express.Router();
 
 // TODO: requrire all controllers
 const authController = require('../controller/authController');
+const sessionController = require('../controller/sessionController');
 
 // TODO: import Schema
 const user = require('../models/userModel');
@@ -13,7 +14,17 @@ router.post(
   '/signup',
   authController.signUp,
   authController.verifyUser,
-  (req, res) => {
+  sessionController.startSession,
+  (_, res) => {
+    res.status(200).json(res.locals.user);
+  },
+);
+
+router.post(
+  '/login',
+  authController.verifyUser,
+  sessionController.startSession,
+  (_, res) => {
     res.status(200).json(res.locals.user);
   },
 );
