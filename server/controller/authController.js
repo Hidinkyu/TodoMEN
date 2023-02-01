@@ -6,10 +6,12 @@ const authController = {
   // TODO: create signup middleware
   async signUp(req, res, next) {
     try {
-      const { email, userName, password } = req.body;
-      if (!email || !userName || !password)
-        return new Error('No email, userName, or Password provided');
-      await User.create({ email, userName, password });
+      const { email, password } = req.body;
+      const user = await User.findOne({ email });
+      if (!user) {
+        console.log('new user created');
+        await User.create({ email, password });
+      }
       next();
     } catch (e) {
       return next({
@@ -20,11 +22,11 @@ const authController = {
     }
   },
   async verifyUser(req, res, next) {
-    const { email, userName, password } = req.body;
+    const { email, password } = req.body;
     try {
-      if (!email || !userName || !password)
+      if (!email || !password)
         throw new Error('No email, userName, or Password provided');
-      User.findOne({ email, userName }, (err, account) => {
+      User.findOne({ email }, (err, account) => {
         if (err) {
           return next({
             log: `Middleware error caught in authController - login failed: ${err}`,
@@ -35,18 +37,18 @@ const authController = {
         bcrypt.compare(password, hashPass, (err, res) => {
           if (!res) return new Error('Incorrect password');
         });
-        const user = {
+        res.locals.user = {
           email: account.email,
           id: account._id,
           todo: account.todo,
         };
-        res.locals.user = user;
         return next();
       });
     } catch (e) {
       return next({
-        log: `Error verifying user: ${err}`,
+        log: `Error verifying user: ${e}`,
         status: 500,
+        message: { err: e.message },
       });
     }
   },
